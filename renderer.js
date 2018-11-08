@@ -21,11 +21,17 @@ clipboard
 .startWatching()
 
 function updateCliboard(trenutniClip) {
-    let historyClipboard_=document.getElementById('historyClipboard');
+    var textnode = document.createTextNode(trenutniClip);
 
     var node = document.createElement("LI");
-    node.className="list-group-item";
-    var textnode = document.createTextNode(trenutniClip);
+    node.className="list-group-item list-group-item-action py-0";
     node.appendChild(textnode);
-    historyClipboard_.insertBefore(node, historyClipboard_.firstChild);
+    node.addEventListener("click", oznaceniClipboard_);
+
+    let historyClipboard_=document.getElementById('historyClipboard');
+    historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
+}
+
+var oznaceniClipboard_=function() {
+    console.log("oznaceniClipboard_");
 }
