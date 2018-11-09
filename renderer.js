@@ -1,16 +1,26 @@
 'use strict'
+//const remote = require('remote'); 
+//var dialog = remote.require('dialog'); 
+const electron = require('electron');
+const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+const path = require('path');
+const fs = require('fs');
+const clipboard = require('electron-clipboard-extended');
 
-window.$ = window.jQuery = require('jquery')
-window.Tether = require('tether')
-window.Bootstrap = require('bootstrap')
+window.$ = window.jQuery = require('jquery');
+window.Tether = require('tether');
+window.Bootstrap = require('bootstrap');
 
-const clipboard = require('electron-clipboard-extended')
- 
+var clipPath_ = path.join(userDataPath, "clipboard.db");
+var fileSep = path.sep; 
+var newLine = "\r\n";  
+var hes="####";
+
 var clipboard_=clipboard
 .on('text-changed', () => {
     let currentText = clipboard.readText();
 
-    updateCliboard(currentText);
+    updateCliboard(currentText, true);
 })
 /* .on('image-changed', () => {
     let currentIMage = clipboard.readImage();
@@ -20,15 +30,10 @@ var clipboard_=clipboard
 
 clipboard_.startWatching();
 
-//var c1=updateCliboard("Cras justo odio");
-//c1;
-//var c2=updateCliboard("Bddd");
-//c2;
-
-function updateCliboard(trenutniClip) {
+function updateCliboard(trenutniClip, pisiDatoteku) {
     let historyClipboard_=document.getElementById('historyClipboard');
     
-    for (const li of historyClipboard_.getElementsByTagName("li")) {
+    for(const li of historyClipboard_.getElementsByTagName("li")) {
         if(trenutniClip==li.textContent) {
             historyClipboard_.removeChild(li);
         }
@@ -48,9 +53,43 @@ function updateCliboard(trenutniClip) {
     while(historyClipboard_.getElementsByTagName("li").length>50) {
         historyClipboard_.removeChild(historyClipboard_.childNodes[historyClipboard_.getElementsByTagName("li").length-1]);
     }
+
+    if(pisiDatoteku) {
+        var content = "";
+
+        for(const li of historyClipboard_.getElementsByTagName("li")) {
+            content+=li.textContent.replace(new RegExp(newLine, 'g'), hes) + newLine;
+        }
+        
+        fs.writeFile(clipPath_, content, (err) => {
+            if (err) {
+                console.log(err);
+                alert("An error ocurred updating the file" + err.message);
+                return;
+            }
+        });
+    }
 }
 
 function oznaceniClipboard(tekst) {
-    console.log("oznaceniClipboard_: " + tekst);
     clipboard.writeText(tekst);
 }
+
+function citaj() {
+    fs.readFile(clipPath_, 'utf-8', (err, data) => {
+        if(err){
+            console.log(err);
+            alert("An error ocurred reading the file :" + err.message);
+            return;
+        }
+
+        var array = data.toString().split(newLine);
+
+        for(var i=array.length-1; i >= 0; i--) {
+            var tmp=(array[i]).replace(new RegExp(hes, 'g'), newLine);
+            updateCliboard(tmp, newLine);
+        }
+    });
+}
+
+citaj();
