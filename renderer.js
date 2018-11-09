@@ -1,6 +1,4 @@
 'use strict'
-//const remote = require('remote'); 
-//var dialog = remote.require('dialog'); 
 const electron = require('electron');
 const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 const path = require('path');
