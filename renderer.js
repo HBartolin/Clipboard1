@@ -10,7 +10,7 @@ const clipboard = require('electron-clipboard-extended')
 clipboard
 .on('text-changed', () => {
     let currentText = clipboard.readText();
-    console.log(currentText);
+
     updateCliboard(currentText);
 })
 /* .on('image-changed', () => {
@@ -26,12 +26,15 @@ function updateCliboard(trenutniClip) {
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0";
     node.appendChild(textnode);
-    node.addEventListener("click", oznaceniClipboard_);
+    node.addEventListener("click", function() { 
+        oznaceniClipboard(trenutniClip) 
+    });
 
     let historyClipboard_=document.getElementById('historyClipboard');
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 }
 
-var oznaceniClipboard_=function() {
+function oznaceniClipboard(tekst) {
     console.log("oznaceniClipboard_");
+    clipboard.writeText(tekst)
 }
