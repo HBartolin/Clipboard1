@@ -84,8 +84,8 @@ function citaj() {
         var array = data.toString().split(newLine);
 
         for(var i=array.length-1; i >= 0; i--) {
-            var tmp=(array[i]).replace(new RegExp(hes, 'g'), newLine);
-            updateCliboard(tmp, newLine);
+            var redak=array[i].replace(new RegExp(hes, 'g'), newLine);
+            updateCliboard(redak, false);
         }
     });
 }
