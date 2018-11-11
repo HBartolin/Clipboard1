@@ -71,6 +71,9 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
 
 function oznaceniClipboard(tekst) {
     clipboard.writeText(tekst);
+
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send('sakri');
 }
 
 function citaj() {

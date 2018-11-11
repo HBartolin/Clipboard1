@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, Tray} = require('electron')
+const {app, BrowserWindow, Menu, Tray, ipcMain} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -61,5 +61,8 @@ app.on('ready', () => {
   tray.setContextMenu(contextMenu)
   tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+  })
+  ipcMain.on('sakri', () => {
+    mainWindow.hide()
   })
 })
