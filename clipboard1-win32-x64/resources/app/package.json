@@ -1,0 +1,30 @@
+{
+  "name": "clipboard1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HBartolin/Clipboard1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HBartolin/Clipboard1/issues"
+  },
+  "homepage": "https://github.com/HBartolin/Clipboard1#readme",
+  "devDependencies": {
+    "electron": "^3.0.8"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "electron-clipboard-extended": "^1.1.1",
+    "electron-packager": "^12.2.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.5",
+    "tether": "^1.4.5"
+  }
+}
