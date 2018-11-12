@@ -5,6 +5,7 @@ const path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let tray = null
 
 function createWindow () {
   // Create the browser window.
@@ -22,6 +23,32 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
+  })
+
+  tray = new Tray(path.join(__dirname, 'img', 'icon48.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'Show', click: function () {
+      mainWindow.show()
+    }},
+    {
+      type: 'separator'
+    },
+    {label: 'Exit', click: function () {
+      app.quit()
+    }}
+  ])
+  tray.setToolTip('Clipboard1')
+  tray.setContextMenu(contextMenu)
+  tray.on('click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+  })
+
+  ipcMain.on('sakri', () => {
+    mainWindow.hide()
+  })
+  
+  globalShortcut.register('CommandOrControl+Alt+.', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
 }
 
@@ -49,31 +76,3 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-let tray = null
-app.on('ready', () => {
-  tray = new Tray(path.join(__dirname, 'img', 'icon48.png'))
-  const contextMenu = Menu.buildFromTemplate([
-    {label: 'Show', click: function () {
-      mainWindow.show()
-    }},
-    {
-      type: 'separator'
-    },
-    {label: 'Exit', click: function () {
-      app.quit()
-    }}
-  ])
-  tray.setToolTip('Clipboard1')
-  tray.setContextMenu(contextMenu)
-  tray.on('click', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-  })
-  ipcMain.on('sakri', () => {
-    mainWindow.hide()
-  })
-  globalShortcut.register('CommandOrControl+Alt+.', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
-  })
-})
-
