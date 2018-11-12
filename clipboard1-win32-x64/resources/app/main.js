@@ -72,10 +72,8 @@ app.on('ready', () => {
   ipcMain.on('sakri', () => {
     mainWindow.hide()
   })
-})
-
-app.on('ready', () => {
   globalShortcut.register('CommandOrControl+Alt+.', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
 })
+
