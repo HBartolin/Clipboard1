@@ -57,6 +57,9 @@ app.on('ready', () => {
     {label: 'Show', click: function () {
       mainWindow.show()
     }},
+    {
+      type: 'separator'
+    },
     {label: 'Exit', click: function () {
       app.quit()
     }}
