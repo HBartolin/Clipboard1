@@ -48,11 +48,11 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
     });
     node.setAttribute('data-toggle', 'tooltip');
     node.setAttribute('data-placement', 'left');
-    node.setAttribute('title', trenutniClip);
+    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));
 
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 
-    while(historyClipboard_.getElementsByTagName("li").length>50) {
+    while(historyClipboard_.getElementsByTagName("li").length>150) {
         historyClipboard_.removeChild(historyClipboard_.childNodes[historyClipboard_.getElementsByTagName("li").length-1]);
     }
 
