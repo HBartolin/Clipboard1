@@ -72,7 +72,7 @@ app.on('ready', () => {
 })
 
 app.on('ready', () => {
-  globalShortcut.register('CommandOrControl+A', () => {
+  globalShortcut.register('CommandOrControl+Alt+.', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
 })
