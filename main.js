@@ -8,7 +8,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 300, height: 800})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -54,6 +54,9 @@ let tray = null
 app.on('ready', () => {
   tray = new Tray(path.join(__dirname, 'img', 'icon48.png'))
   const contextMenu = Menu.buildFromTemplate([
+    {label: 'Show', click: function () {
+      mainWindow.show()
+    }},
     {label: 'Exit', click: function () {
       app.quit()
     }}

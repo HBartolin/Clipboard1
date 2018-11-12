@@ -41,11 +41,14 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
     var textnode = document.createTextNode(trenutniClip);
 
     var node = document.createElement("LI");
-    node.className="list-group-item list-group-item-action py-0 text-nowrap";
+    node.className="list-group-item list-group-item-action py-0 text-truncate";
     node.appendChild(textnode);
     node.addEventListener("click", function() { 
-        oznaceniClipboard(trenutniClip) 
+        oznaceniClipboard(trenutniClip);
     });
+    node.setAttribute('data-toggle', 'tooltip');
+    node.setAttribute('data-placement', 'left');
+    node.setAttribute('title', trenutniClip);
 
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 
