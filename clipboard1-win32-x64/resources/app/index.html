@@ -5,9 +5,18 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
+  <div class="d-flex p-2 bd-highlight">
+    <img src="img/octicons/clippy.svg" onclick="ponistiSeach()" data-toggle="tooltip" data-placement="top" title="Clipboard1" style="margin-left: 5px; margin-right: 10px">
+    <img src="img/octicons/search.svg" onclick="trazi()" data-toggle="tooltip" data-placement="top" title="Search">
+  </div>
+
+  <div id="traziBlock" style="display: none">
+    <input type="text" class="form-control" id="traziPolje" placeholder="search" autofocus>
+  </div>
+
   <ul id="historyClipboard" class="list-group">
   </ul>
-
+         
   <script src="renderer.js"></script>
 </body>
 </html>    

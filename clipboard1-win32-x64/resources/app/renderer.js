@@ -76,6 +76,8 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
 function oznaceniClipboard(tekst) {
     clipboard.writeText(tekst);
 
+    ponistiSeach();  
+
     ipcRenderer.send('sakri');
 }
 
@@ -97,3 +99,33 @@ function citaj() {
 }
 
 citaj();
+
+function trazi() {
+    var traziBlock_=document.getElementById("traziBlock");
+    traziBlock_.style['display'] = 'block';   
+}
+
+function ponistiSeach() {
+    $("#traziPolje").val('');
+    
+    $("#historyClipboard li").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf('') > -1)
+    });
+         
+    var traziBlock_=document.getElementById("traziBlock");
+    traziBlock_.style['display'] = 'none';  
+}
+
+function pretraziListu() {
+    $(document).ready(function(){
+        $("#traziPolje").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            
+            $("#historyClipboard li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+}
+
+pretraziListu();
