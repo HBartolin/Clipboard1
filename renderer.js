@@ -47,7 +47,6 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
         oznaceniClipboard(trenutniClip);
     });
     node.setAttribute('data-toggle', 'tooltip');
-    node.setAttribute('data-placement', 'left');
     node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));
 
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
@@ -102,7 +101,12 @@ citaj();
 
 function trazi() {
     var traziBlock_=document.getElementById("traziBlock");
-    traziBlock_.style['display'] = 'block';   
+    
+    if(traziBlock_.style['display']=='none') {
+        traziBlock_.style['display'] = 'block';   
+    } else {
+        ponistiSeach();   
+    }
 }
 
 function ponistiSeach() {

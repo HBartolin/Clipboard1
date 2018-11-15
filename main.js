@@ -6,10 +6,11 @@ const path = require('path')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let tray = null
+var mojaIkona = path.join(__dirname, 'img', 'icon48.png')
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 300, height: 800})
+  mainWindow = new BrowserWindow({width: 300, height: 800, icon: mojaIkona})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -25,7 +26,7 @@ function createWindow () {
     mainWindow = null
   })
 
-  tray = new Tray(path.join(__dirname, 'img', 'icon48.png'))
+  tray = new Tray(mojaIkona)
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Show', click: function () {
       mainWindow.show()

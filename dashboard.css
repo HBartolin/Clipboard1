@@ -3,7 +3,7 @@
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
+  body {
     padding-top: 50px;
   }
   
@@ -68,3 +68,5 @@ body {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
   }
+
+  
