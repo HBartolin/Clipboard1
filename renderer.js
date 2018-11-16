@@ -29,6 +29,8 @@ var clipboard_=clipboard
 
 clipboard_.startWatching();
 
+var ima='<li id="LIgumb" class="list-group-item list-group-item-action py-0 text-truncate" onclick="oznaceniClipboard(\'LItext\')" data-toggle="tooltip" title="LItext"> LItext <button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(\'LItext\')">    <span aria-hidden="true">&times;</span>  </button> </li>';
+
 function updateCliboard(trenutniClip, pisiDatoteku) {
     let historyClipboard_=document.getElementById('historyClipboard');
     
@@ -42,12 +44,13 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
 
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0 text-truncate";
+//    node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(\'${trenutniClip}\')"> <span aria-hidden="true">&times;</span> </button>`;
     node.appendChild(textnode);
     node.addEventListener("click", function() { 
         oznaceniClipboard(trenutniClip);
     });
     node.setAttribute('data-toggle', 'tooltip');
-    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));
+    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));     
 
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 
@@ -133,3 +136,9 @@ function pretraziListu() {
 }
 
 pretraziListu();
+
+function obrisiClipboard(LItext) {
+    event.stopPropagation();
+
+    console.log(event);
+}

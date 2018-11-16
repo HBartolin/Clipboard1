@@ -10,3 +10,5 @@ Clipboard utility (multiple copy/paste)
 electron-packager . --platform=win32 --arch=x64 --overwrite
 
 npm update
+
+C:\Users\HrvojeBartolin\AppData\Roaming\clipboard1
