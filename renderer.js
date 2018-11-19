@@ -14,6 +14,7 @@ var clipPath_ = path.join(userDataPath, "clipboard.db");
 var fileSep = path.sep; 
 var newLine = "\r\n";  
 var hes="####";
+var brojac=0;
 
 var clipboard_=clipboard
 .on('text-changed', () => {
@@ -42,15 +43,17 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
 
     var textnode = document.createTextNode(trenutniClip);
 
+    brojac++;
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0 text-truncate";
-//    node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(\'${trenutniClip}\')"> <span aria-hidden="true">&times;</span> </button>`;
+    node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(${brojac})"> <span aria-hidden="true">&times;</span> </button>`;
     node.appendChild(textnode);
     node.addEventListener("click", function() { 
         oznaceniClipboard(trenutniClip);
     });
     node.setAttribute('data-toggle', 'tooltip');
-    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));     
+    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));   
+    node.setAttribute('brojac', brojac);
 
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 
@@ -59,20 +62,32 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
     }
 
     if(pisiDatoteku) {
-        var content = "";
+        dampajDatoteku(historyClipboard_);
+    }
+}
 
-        for(const li of historyClipboard_.getElementsByTagName("li")) {
-            content+=li.textContent.replace(new RegExp(newLine, 'g'), hes) + newLine;
+function dampajDatoteku(historyClipboard_) {
+    var content = "";
+
+    for(var li of historyClipboard_.getElementsByTagName("li")) {
+        li = li.cloneNode(true);
+
+        for (var i=li.childNodes.length-1; i>=0; i--) {
+            if (li.childNodes[i].tagName) li.removeChild(li.childNodes[i]);
         }
         
-        fs.writeFile(clipPath_, content, (err) => {
-            if (err) {
-                console.log(err);
-                alert("An error ocurred updating the file" + err.message);
-                return;
-            }
-        });
+        var innerText = li['innerText' in li ? 'innerText' : 'textContent'];
+
+        content+=innerText.replace(new RegExp(newLine, 'g'), hes) + newLine;
     }
+    
+    fs.writeFile(clipPath_, content, (err) => {
+        if (err) {
+            console.log(err);
+            alert("An error ocurred updating the file" + err.message);
+            return;
+        }
+    });
 }
 
 function oznaceniClipboard(tekst) {
@@ -137,8 +152,20 @@ function pretraziListu() {
 
 pretraziListu();
 
-function obrisiClipboard(LItext) {
+function obrisiClipboard(tretutniBrojac) {
     event.stopPropagation();
+    
+    let historyClipboard_=document.getElementById('historyClipboard');
+    var liList = historyClipboard_.getElementsByTagName("li");
 
-    console.log(event);
+    zavrsi: 
+    for(var item of liList) {
+        if(item.getAttribute('brojac')==tretutniBrojac) {
+            historyClipboard_.removeChild(item);
+
+            break zavrsi;
+        }
+    }
+
+    dampajDatoteku(historyClipboard_);
 }
