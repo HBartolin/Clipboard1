@@ -10,11 +10,10 @@ window.$ = window.jQuery = require('jquery');
 window.Tether = require('tether');
 window.Bootstrap = require('bootstrap');
 
-var clipPath_ = path.join(userDataPath, "clipboard.db");
+var clipPath2_ = path.join(userDataPath, "db");
 var fileSep = path.sep; 
 var newLine = "\r\n";  
 var hes="####";
-var brojac=0;
 
 var clipboard_=clipboard
 .on('text-changed', () => {
@@ -32,18 +31,35 @@ clipboard_.startWatching();
 
 var ima='<li id="LIgumb" class="list-group-item list-group-item-action py-0 text-truncate" onclick="oznaceniClipboard(\'LItext\')" data-toggle="tooltip" title="LItext"> LItext <button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(\'LItext\')">    <span aria-hidden="true">&times;</span>  </button> </li>';
 
-function updateCliboard(trenutniClip, pisiDatoteku) {
+function updateCliboard(trenutniClip, pisiDatoteku, brojac_) {
     let historyClipboard_=document.getElementById('historyClipboard');
     
-    for(const li of historyClipboard_.getElementsByTagName("li")) {
-        if(trenutniClip==li.textContent) {
-            historyClipboard_.removeChild(li);
+    for(const li_ of historyClipboard_.getElementsByTagName("li")) {
+        var li = li_.cloneNode(true);
+
+        for (var i=li.childNodes.length-1; i>=0; i--) {
+            if (li.childNodes[i].tagName) li.removeChild(li.childNodes[i]);
         }
-    }
+
+        var content = li['innerText' in li ? 'innerText' : 'textContent'];
+        
+        if(trenutniClip==content) {
+            historyClipboard_.removeChild(li_);
+            var b_=li_.getAttribute('brojac');
+
+            fs.unlinkSync(path.join(clipPath2_, b_ + '.db'));
+        }
+    } 
 
     var textnode = document.createTextNode(trenutniClip);
 
-    brojac++;
+    var brojac;
+    if(brojac_==null) {
+        brojac=Date.now();
+    } else {
+        brojac=brojac_;
+    }
+    
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0 text-truncate";
     node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(${brojac})"> <span aria-hidden="true">&times;</span> </button>`;
@@ -58,30 +74,29 @@ function updateCliboard(trenutniClip, pisiDatoteku) {
     historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
 
     while(historyClipboard_.getElementsByTagName("li").length>150) {
-        historyClipboard_.removeChild(historyClipboard_.childNodes[historyClipboard_.getElementsByTagName("li").length-1]);
-    }
+        var node_=historyClipboard_.childNodes[historyClipboard_.getElementsByTagName("li").length-1];
+        historyClipboard_.removeChild(node_);
+        var b_=node_.getAttribute('brojac');
+
+        fs.unlinkSync(path.join(clipPath2_, b_ + '.db'));
+    } 
 
     if(pisiDatoteku) {
-        dampajDatoteku(historyClipboard_);
+        dampajDatoteku2(node);
     }
 }
 
-function dampajDatoteku(historyClipboard_) {
-    var content = "";
+function dampajDatoteku2(node) {
+    var datoteka= path.join(clipPath2_, node.getAttribute('brojac') + ".db");
+    var li = node.cloneNode(true);
 
-    for(var li of historyClipboard_.getElementsByTagName("li")) {
-        li = li.cloneNode(true);
-
-        for (var i=li.childNodes.length-1; i>=0; i--) {
-            if (li.childNodes[i].tagName) li.removeChild(li.childNodes[i]);
-        }
-        
-        var innerText = li['innerText' in li ? 'innerText' : 'textContent'];
-
-        content+=innerText.replace(new RegExp(newLine, 'g'), hes) + newLine;
+    for (var i=li.childNodes.length-1; i>=0; i--) {
+        if (li.childNodes[i].tagName) li.removeChild(li.childNodes[i]);
     }
-    
-    fs.writeFile(clipPath_, content, (err) => {
+
+    var content = li['innerText' in li ? 'innerText' : 'textContent'];
+
+    fs.writeFile(datoteka, content, (err) => {
         if (err) {
             console.log(err);
             alert("An error ocurred updating the file" + err.message);
@@ -99,20 +114,18 @@ function oznaceniClipboard(tekst) {
 }
 
 function citaj() {
-    fs.readFile(clipPath_, 'utf-8', (err, data) => {
-        if(err){
-            console.log(err);
-            alert("An error ocurred reading the file :" + err.message);
-            return;
-        }
+    if (!fs.existsSync(clipPath2_)){
+        fs.mkdirSync(clipPath2_);
+    }
 
-        var array = data.toString().split(newLine);
+    var datoteke=fs.readdirSync(clipPath2_);
 
-        for(var i=array.length-1; i >= 0; i--) {
-            var redak=array[i].replace(new RegExp(hes, 'g'), newLine);
-            updateCliboard(redak, false);
-        }
-    });
+    for(var d of datoteke) {
+        var sadrzaj=fs.readFileSync(path.join(clipPath2_, d), 'utf-8');
+        
+        updateCliboard(sadrzaj, false, path.parse(d).name);
+    }
+    
 }
 
 citaj();
@@ -163,9 +176,9 @@ function obrisiClipboard(tretutniBrojac) {
         if(item.getAttribute('brojac')==tretutniBrojac) {
             historyClipboard_.removeChild(item);
 
+            fs.unlinkSync(path.join(clipPath2_, tretutniBrojac + '.db'));
+
             break zavrsi;
         }
     }
-
-    dampajDatoteku(historyClipboard_);
 }
