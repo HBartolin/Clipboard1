@@ -51,15 +51,8 @@ function updateCliboard(trenutniClip, pisiDatoteku, brojac_) {
         }
     } 
 
-    var textnode = document.createTextNode(trenutniClip);
-
-    var brojac;
-    if(brojac_==null) {
-        brojac=Date.now();
-    } else {
-        brojac=brojac_;
-    }
-    
+    var brojac = brojac_==null ? Date.now() : brojac_;
+    var textnode = document.createTextNode(trenutniClip);    
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0 text-truncate";
     node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(${brojac})"> <span aria-hidden="true">&times;</span> </button>`;
