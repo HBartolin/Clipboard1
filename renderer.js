@@ -1,4 +1,3 @@
-'use strict'
 const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -28,8 +27,6 @@ var clipboard_=clipboard
 }) */;
 
 clipboard_.startWatching();
-
-var ima='<li id="LIgumb" class="list-group-item list-group-item-action py-0 text-truncate" onclick="oznaceniClipboard(\'LItext\')" data-toggle="tooltip" title="LItext"> LItext <button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(\'LItext\')">    <span aria-hidden="true">&times;</span>  </button> </li>';
 
 function updateCliboard(trenutniClip, pisiDatoteku, brojac_) {
     let historyClipboard_=document.getElementById('historyClipboard');
