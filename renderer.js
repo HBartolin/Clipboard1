@@ -22,9 +22,9 @@ var clipboard_=clipboard
 })
 /* .on('image-changed', () => {
     let currentIMage = clipboard.readImage();
-    console.log(currentIMage);
-    updateCliboard(currentIMage);
-}) */;
+    
+    updateCliboard(currentIMage, true);
+})*/;
 
 clipboard_.startWatching();
 
