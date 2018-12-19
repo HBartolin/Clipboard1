@@ -23,10 +23,28 @@ var clipboard_=clipboard
 /* .on('image-changed', () => {
     let currentIMage = clipboard.readImage();
     
-    updateCliboard(currentIMage, true);
-})*/;
+    updateCliboardImage(currentIMage);
+}) */;
 
 clipboard_.startWatching();
+
+function updateCliboardImage(trenutniClip) {
+    let historyClipboard_=document.getElementById('historyClipboard');
+
+    var textnode = document.createTextNode("[img]");    
+    var node = document.createElement("LI");
+    node.className="list-group-item list-group-item-action py-0 text-truncate";
+//    node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(${brojac})"> <span aria-hidden="true">&times;</span> </button>`;
+    node.appendChild(textnode);
+//    node.addEventListener("click", function() { 
+//        oznaceniClipboard(trenutniClip);
+//    });
+//    node.setAttribute('data-toggle', 'tooltip');
+//    node.setAttribute('title', trenutniClip.replace(new RegExp('"', 'g'), ' '));   
+//    node.setAttribute('brojac', brojac);
+
+    historyClipboard_.insertBefore(node, historyClipboard_.firstChild); 
+}
 
 function updateCliboard(trenutniClip, pisiDatoteku, brojac_) {
     let historyClipboard_=document.getElementById('historyClipboard');
