@@ -20,7 +20,7 @@
     "electron": "^3.0.13"
   },
   "dependencies": {
-    "bootstrap": "^4.1.3",
+    "bootstrap": "^4.2.1",
     "electron-clipboard-extended": "^1.1.1",
     "electron-packager": "^12.2.0",
     "jquery": "^3.3.1",
