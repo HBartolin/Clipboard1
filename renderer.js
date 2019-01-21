@@ -20,18 +20,18 @@ var clipboard_=clipboard
 
     updateCliboard(currentText, true);
 })
-/* .on('image-changed', () => {
+ .on('image-changed', () => {
     let currentIMage = clipboard.readImage();
-    
+    console.log(currentIMage.getSize());
     updateCliboardImage(currentIMage);
-}) */;
+});
 
 clipboard_.startWatching();
 
 function updateCliboardImage(trenutniClip) {
     let historyClipboard_=document.getElementById('historyClipboard');
 
-    var textnode = document.createTextNode("[img]");    
+    var textnode = document.createTextNode("[img] {width: " + trenutniClip.getSize().width + ", height: " + trenutniClip.getSize().height + "}");    
     var node = document.createElement("LI");
     node.className="list-group-item list-group-item-action py-0 text-truncate";
 //    node.innerHTML=`<button type="button" class="close" aria-label="Close" onclick="obrisiClipboard(${brojac})"> <span aria-hidden="true">&times;</span> </button>`;
