@@ -20,11 +20,11 @@ var clipboard_=clipboard
 
     updateCliboard(currentText, true);
 })
- .on('image-changed', () => {
+/* .on('image-changed', () => {
     let currentIMage = clipboard.readImage();
     console.log(currentIMage.getSize());
     updateCliboardImage(currentIMage);
-});
+})*/;
 
 clipboard_.startWatching();
 
