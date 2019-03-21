@@ -15,6 +15,7 @@ function createWindow () {
   let height = display.bounds.height;
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 300, height: 800, x: width - 350, y: height - 900, icon: mojaIkona})
+  mainWindow.hide()
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
