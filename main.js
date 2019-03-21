@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, Tray, ipcMain, globalShortcut} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow, Menu, Tray, ipcMain, globalShortcut} = electron
 const path = require('path')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -9,8 +10,11 @@ let tray = null
 var mojaIkona = path.join(__dirname, 'img', 'icon48.png')
 
 function createWindow () {
+  let display = electron.screen.getPrimaryDisplay();
+  let width = display.bounds.width;
+  let height = display.bounds.height;
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 300, height: 800, icon: mojaIkona})
+  mainWindow = new BrowserWindow({width: 300, height: 800, x: width - 350, y: height - 900, icon: mojaIkona})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
