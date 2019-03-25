@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/HBartolin/Clipboard1#readme",
   "devDependencies": {
-    "electron": "^3.1.6"
+    "electron": "^3.1.7"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
