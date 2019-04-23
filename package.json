@@ -25,6 +25,6 @@
     "electron-packager": "^13.1.1",
     "jquery": "^3.4.0",
     "popper.js": "^1.15.0",
-    "tether": "^1.4.5"
+    "tether": "^1.4.6"
   }
 }
