@@ -22,7 +22,7 @@
   "dependencies": {
     "bootstrap": "^4.5.2",
     "electron-clipboard-extended": "^1.1.1",
-    "electron-packager": "^15.0.0",
+    "electron-packager": "^15.1.0",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "tether": "^1.4.7"
