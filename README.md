@@ -7,7 +7,7 @@ Clipboard utility (multiple copy/paste)
 </p>
 
 # Rest
-electron-packager . --platform=win32 --arch=x64 --overwrite
+npx @electron/packager . --platform=win32 --arch=x64 --overwrite 
 
 npm update
 
